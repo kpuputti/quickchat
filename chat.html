@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quick Chat</title>
+    <style>
+      html, body, section, ul { margin: 0; padding: 0 }
+      html, body, section { height: 100%; }
+      html { font-family: Verdana; color: #333; }
+      #messages { list-style: none; overflow-y: scroll; }
+      form { width: 100%; height: 30px; box-sizing: border-box; }
+      input[type=text] { margin: 0 1%; width: 75%; }
+      input[type=submit] { width: 20%;}
+    </style>
+  </head>
+  <body>
+
+    <section>
+      <ul id="messages"></ul>
+      <form>
+        <input type="text" autofocus>
+        <input type="submit" value="Send">
+      </form>
+    </section>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="chat.js"></script>
+  </body>
+</html>
