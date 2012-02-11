@@ -23,6 +23,43 @@
       </form>
     </section>
 
+    <script id="workerbot" type="javascript/worker">
+      var dummyfib = function (n) {
+        if (n < 2) {
+          return 1;
+        }
+        return dummyfib(n - 2) + dummyfib(n - 1);
+      };
+
+      var commands = {
+        fib: function (args, onSuccess, onError) {
+          var n = parseInt(args, 10);
+          if (isNaN(n)) {
+            onError('fib command arg should be a number');
+          }
+          var result = dummyfib(n);
+          onSuccess(result);
+        }
+      };
+
+      self.onmessage = function (e) {
+        var cmd = e.data.cmd;
+        if (commands.hasOwnProperty(cmd)) {
+          commands[cmd](e.data.args, function (result) {
+            self.postMessage({
+              cmd: cmd,
+              args: e.data.args,
+              result: result
+            });
+          }, function (msg) {
+            self.postMessage({result: 'Command error: ' + msg});
+          });
+        } else {
+          self.postMessage({result: 'Unknown command: ' + cmd});
+        }
+      };
+    </script>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="chat.js"></script>
   </body>
